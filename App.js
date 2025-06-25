@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { AppLoading } from "expo";
+import AppLoading from "expo-app-loading";
 
 import AppNavigator from "./app/navigation/AppNavigator";
 import AuthNavigator from "./app/navigation/AuthNavigator";
