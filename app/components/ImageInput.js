@@ -16,14 +16,12 @@ function ImageInput({ imageUri, onChangeImage }) {
 		requestPermission();
 	}, []);
 
-	const requestPermission = async () => {
-		const {
-			granted,
-		} = await ImagePicker.requestCameraRollPermissionsAsync();
-		if (!granted) {
-			alert("You need to enable permission to access the library");
-		}
-	};
+        const requestPermission = async () => {
+                const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (!granted) {
+                        alert("You need to enable permission to access the library");
+                }
+        };
 
 	const handlePress = () => {
 		if (!imageUri) {
@@ -42,11 +40,14 @@ function ImageInput({ imageUri, onChangeImage }) {
 
 	const selectImage = async () => {
 		try {
-			const result = await ImagePicker.launchImageLibraryAsync({
-				mediaTypes: ImagePicker.MediaTypeOptions.Images,
-				quality: 0.5,
-			});
-			if (!result.cancelled) onChangeImage(result.uri);
+                const result = await ImagePicker.launchImageLibraryAsync({
+                        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                        quality: 0.5,
+                });
+                if (!result.canceled) {
+                        const uri = result.assets ? result.assets[0].uri : result.uri;
+                        onChangeImage(uri);
+                }
 		} catch (error) {
 			console.log("Error reading an image", error);
 		}
